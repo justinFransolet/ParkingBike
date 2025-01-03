@@ -10,7 +10,7 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S"  # Format of the date
 )
 
-def write_file(path: str, data: dict) -> bool:
+def write_file(path: str, data: dict) -> None:
     """
     Write data in a JSON file.
 
@@ -26,7 +26,6 @@ def write_file(path: str, data: dict) -> bool:
         with open(path, 'w', encoding='utf-8') as file:
             json.dump(data, file, indent=4, ensure_ascii=False)
             logging.info(f"Fichier JSON mis à jour : {path}")
-            return True
     except FileNotFoundError:
         message = f"File not found at : {path}"
         logging.error(message)
