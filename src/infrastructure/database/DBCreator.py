@@ -59,9 +59,9 @@ def create_database()-> str:
             start_time TEXT NOT NULL,
             end_time TEXT,
             bike_id INTEGER NOT NULL,
-            FOREIGN KEY (bike_id) REFERENCES bike (id),
             customer_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES customer (id)
+            FOREIGN KEY (bike_id) REFERENCES bike (id),
+            FOREIGN KEY (customer_id) REFERENCES customer (id)
         );
         """)
 
@@ -70,12 +70,13 @@ def create_database()-> str:
         logging.info(f"Database named {db_name} was created successfully.")
 
     except sqlite3.Error as e:
-        logging.error(f"Erreur lors de la création de la base de données : {e}")
+        logging.error(f"Error during the creation of the database: {e}")
         db_name = "error"
     finally:
         # Close the connection
         if connection:
             connection.close()
+            logging.info("The database connection was closed")
 
     return db_name
 
