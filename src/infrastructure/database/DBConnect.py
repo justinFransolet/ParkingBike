@@ -1,5 +1,6 @@
 ﻿import sqlite3
 import logging
+from typing import List, Optional
 
 # Configure log
 logging.basicConfig(
@@ -21,11 +22,12 @@ class DBConnect:
         """
         self.name = name
 
-    def request_executor(self,request: str)-> bool:
+    def changes_request(self,request: str)-> bool:
         """
-        Method to execute a request in the database.
+        Method to execute a changes data request in the database.
+        Like INSERT, UPDATE, DELETE.
 
-        :param request: Request to execute in the database.
+        :param request: Request to changes the data into the database.
 
         :return: True if the request was executed successfully, False otherwise.
         """
@@ -50,3 +52,35 @@ class DBConnect:
                 connection.close()
                 logging.info("The connection to the database was closed successfully.")
         return success
+
+    def search_request(self, request: str) -> Optional[List[tuple]]:
+        """
+        Method to execute a search request in the database (e.g., SELECT).
+
+        :param request: Request to execute at the database.
+        :return: A list of tuples containing the query results, or None if an error occurs.
+        """
+
+        connection = None
+        results = None
+
+        try:
+            # Connect to the database
+            connection = sqlite3.connect(self.name)
+            cursor = connection.cursor()
+
+            # Execute the request
+            cursor.execute(request)
+            results = cursor.fetchall()
+            logging.info(f"Query executed successfully. {len(results)} rows retrieved.")
+
+        except sqlite3.Error as error:
+            logging.error(f"Error executing query: {error}")
+
+        finally:
+            # Close the connection
+            if connection:
+                connection.close()
+                logging.info("The connection to the database was closed successfully.")
+
+        return results
