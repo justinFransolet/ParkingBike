@@ -36,7 +36,7 @@ def create_database()-> str:
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS customer (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            surname TEXT NOT NULL,
+            lastname TEXT NOT NULL,
             firstname TEXT NOT NULL
         );
         """)
