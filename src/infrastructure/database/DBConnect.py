@@ -1,6 +1,5 @@
 ﻿import sqlite3
 import logging
-from typing import List, Optional
 
 # Configure log
 logging.basicConfig(
@@ -53,7 +52,7 @@ class DBConnect:
                 logging.info("The connection to the database was closed successfully.")
         return success
 
-    def search_request(self, request: str) -> Optional[List[tuple]]:
+    def search_request(self, request: str) -> list:
         """
         Method to execute a search request in the database (e.g., SELECT).
 
