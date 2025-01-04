@@ -4,7 +4,7 @@ from error import JSONWriterError
 
 # Configure log
 logging.basicConfig(
-    filename="app.log",  # Name of the log file
+    filename="JSONWriter.log",  # Name of the log file
     level=logging.INFO,  # Level of the logs
     format="%(asctime)s - %(levelname)s - %(message)s",  # Format of the logs
     datefmt="%Y-%m-%d %H:%M:%S"  # Format of the date
