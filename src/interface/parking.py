@@ -155,9 +155,12 @@ class ParkingBikeApp(ctk.CTk):
             popup.wait_window()
 
     def clear_entries(self):
-        """Effacer les champs d'entrée."""
+        """
+        Clear all the entries.
+        """
         for entry in [self.parking_number_entry, self.model_entry, self.colour_entry, self.surname_entry, self.firstname_entry]:
             entry.delete(0, "end")
+        self.is_electric_var.set("True")
 
 if __name__ == "__main__":
     app = ParkingBikeApp("dark", "dark-blue",800,600)
