@@ -110,6 +110,10 @@ class ParkingBikeApp(ctk.CTk):
         table_frame.grid_rowconfigure(2, weight=1)
         table_frame.grid_columnconfigure(0, weight=1)
 
+        # Footer
+        footer = ctk.CTkLabel(self, text="Created by Fransolet Justin", font=("Arial", 11))
+        footer.grid(row=4, column=0, columnspan=2, pady=self.__y_pad, sticky="nsew")
+
     def create_entry(self, parent: ctk.CTkFrame, label_text: str,row: int)-> ctk.CTkEntry:
         """
         Create an entry with a label.
