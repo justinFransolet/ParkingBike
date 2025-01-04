@@ -19,7 +19,7 @@ class DBConnect:
 
         :param name: Name of the database.
         """
-        self.name = name
+        self.__name = name
 
     def changes_request(self,request: str)-> bool:
         """
@@ -36,7 +36,7 @@ class DBConnect:
 
         try:
             # Connect to the database
-            connection = sqlite3.connect(self.name)
+            connection = sqlite3.connect(self.__name)
             cursor = connection.cursor()
             # Execute the request
             cursor.execute(request)
@@ -65,7 +65,7 @@ class DBConnect:
 
         try:
             # Connect to the database
-            connection = sqlite3.connect(self.name)
+            connection = sqlite3.connect(self.__name)
             cursor = connection.cursor()
 
             # Execute the request
