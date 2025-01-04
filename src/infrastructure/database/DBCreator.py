@@ -10,13 +10,15 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S"  # Format of the date
 )
 
-def create_database():
+def create_database()-> str:
     """
     Create the database with the tables customer, bike and park.
 
     The customer table contains the current customers of the bike park.
     The bike table contains the bikes of the customers.
     The park table contains the park time.
+
+    :return: The name of the database created. If an error occurs, the name of the database is "error".
     """
 
     connection = None
@@ -69,11 +71,13 @@ def create_database():
 
     except sqlite3.Error as e:
         logging.error(f"Erreur lors de la création de la base de données : {e}")
-
+        db_name = "error"
     finally:
         # Close the connection
         if connection:
             connection.close()
+
+    return db_name
 
 if __name__ == "__main__":
     create_database()
