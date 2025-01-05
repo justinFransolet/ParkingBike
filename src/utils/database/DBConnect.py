@@ -60,11 +60,13 @@ class DBConnect:
         :param request: Request to execute at the database.
         :param parameters: Tuple of parameters to insert into the request.
 
+        :raise ValueError: If no results are found.
+
         :return: A list of tuples containing the query results, or None if an error occurs.
         """
 
         connection = None
-        results = None
+        results = []
 
         try:
             # Connect to the database
@@ -84,5 +86,8 @@ class DBConnect:
             if connection:
                 connection.close()
                 logging.info("The connection to the database was closed successfully.")
+
+        if len(results) == 0:
+            raise ValueError("No results found.")
 
         return results

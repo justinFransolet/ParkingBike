@@ -41,6 +41,10 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(result[0][1], "Smith")
         print(f"Result : {result}")
 
+    def test_search_request_without_result(self):
+        # Test search_request method without result
+        with self.assertRaises(ValueError):
+            self.db.search_request("SELECT * FROM customer WHERE lastname = ? AND firstname = ?", ("Who","Doctor"))
 
 if __name__ == '__main__':
     unittest.main()
