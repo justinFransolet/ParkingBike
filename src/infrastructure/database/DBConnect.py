@@ -21,12 +21,13 @@ class DBConnect:
         """
         self.__name = name
 
-    def changes_request(self,request: str)-> bool:
+    def changes_request(self, request: str, parameters: list)-> bool:
         """
         Method to execute a changes data request in the database.
         Like INSERT, UPDATE, DELETE.
 
         :param request: Request to changes the data into the database.
+        :param parameters: List of parameters to insert into the request.
 
         :return: True if the request was executed successfully, False otherwise.
         """
@@ -39,7 +40,7 @@ class DBConnect:
             connection = sqlite3.connect(self.__name)
             cursor = connection.cursor()
             # Execute the request
-            cursor.execute(request)
+            cursor.execute(request,parameters)
             connection.commit()
             # Change the success flag
             success = True
@@ -52,11 +53,13 @@ class DBConnect:
                 logging.info("The connection to the database was closed successfully.")
         return success
 
-    def search_request(self, request: str) -> list:
+    def search_request(self, request: str, parameters: list) -> list:
         """
         Method to execute a search request in the database (e.g., SELECT).
 
         :param request: Request to execute at the database.
+        :param parameters: List of parameters to insert into the request.
+
         :return: A list of tuples containing the query results, or None if an error occurs.
         """
 
@@ -69,7 +72,7 @@ class DBConnect:
             cursor = connection.cursor()
 
             # Execute the request
-            cursor.execute(request)
+            cursor.execute(request,parameters)
             results = cursor.fetchall()
             logging.info(f"Query executed successfully. {len(results)} rows retrieved.")
 

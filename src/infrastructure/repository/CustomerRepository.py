@@ -21,7 +21,7 @@ class CustomerRepository:
         :return: It returns the list of customers.
         """
         request = """SELECT * FROM customer"""
-        result = self.__db.search_request(request)
+        result = self.__db.search_request(request,[])
         if result is not None:
             return result
         else:
@@ -37,8 +37,8 @@ class CustomerRepository:
 
         :return: It returns the customer.
         """
-        request = f"""SELECT * FROM customer WHERE id = {customer_id}"""
-        result = self.__db.search_request(request)
+        request = """SELECT * FROM customer WHERE id = ?"""
+        result = self.__db.search_request(request, [customer_id])
         if result is not None:
             return result[0]
         else:
@@ -55,8 +55,8 @@ class CustomerRepository:
 
         :return: It returns the customer.
         """
-        request = f"""SELECT * FROM customer WHERE firstname = {firstname} AND lastname = {lastname}"""
-        result = self.__db.search_request(request)
+        request = """SELECT * FROM customer WHERE firstname = ? AND lastname = ?"""
+        result = self.__db.search_request(request,[firstname,lastname])
         if result is not None:
             return result[0]
         else:
@@ -66,4 +66,10 @@ class CustomerRepository:
         pass
 
     def delete_customer(self, customer_id):
-        pass
+        """
+        This method is used to delete the customer by id from the database.
+
+        :return: It returns the list of customers.
+        """
+        request = """DELETE FROM customer WHERE id = ?"""
+        return self.__db.changes_request(request,[customer_id])
