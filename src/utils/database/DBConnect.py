@@ -3,7 +3,7 @@ import logging
 
 # Configure log
 logging.basicConfig(
-    filename="databaseParking.log",  # Name of the log file
+    filename="../../infrastructure/database/databaseParking.log",  # Name of the log file
     level=logging.INFO,  # Level of the logs
     format="%(asctime)s - %(levelname)s - %(message)s",  # Format of the logs
     datefmt="%Y-%m-%d %H:%M:%S"  # Format of the date

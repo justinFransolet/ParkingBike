@@ -1,5 +1,4 @@
-﻿from .JSONTools.JSONReader import *
-from .JSONTools.JSONWriter import *
+﻿from src.utils.JSONTools import *
 
 class JSONManager:
     """

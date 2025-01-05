@@ -1,30 +1,31 @@
 ﻿import json
 import logging
-from error import JSONReaderError
+from .error import JSONWriterError
 
 # Configure log
 logging.basicConfig(
-    filename="JSONReader.log",  # Name of the log file
+    filename="JSONWriter.log",  # Name of the log file
     level=logging.INFO,  # Level of the logs
     format="%(asctime)s - %(levelname)s - %(message)s",  # Format of the logs
     datefmt="%Y-%m-%d %H:%M:%S"  # Format of the date
 )
 
-def read_file(path: str) -> dict:
+def write_file(path: str, data: dict) -> None:
     """
-    Get the content of a JSON file.
+    Write data in a JSON file.
 
     :param path: Path to the JSON file.
+    :param data: Data to write in the JSON file.
 
     :raise FileNotFoundError: If the file is not found.
-    :raise JSONReaderError: If the file is not a valid JSON file.
+    :raise JSONWriterError: If the file is not a valid JSON file.
 
-    :return: The content of the JSON file on a dictionary.
+    :return: True if the file has been written successfully, False otherwise.
     """
     try:
-        with open(path, 'r', encoding='utf-8') as file:
-            donnees = json.load(file)
-            return donnees
+        with open(path, 'w', encoding='utf-8') as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
+            logging.info(f"Fichier JSON mis à jour : {path}")
     except FileNotFoundError:
         message = f"File not found at : {path}"
         logging.error(message)
@@ -32,8 +33,8 @@ def read_file(path: str) -> dict:
     except json.JSONDecodeError as e:
         message = f"Format JSON file not valide. Detail : {e}"
         logging.critical(message)
-        raise JSONReaderError(message)
+        raise JSONWriterError(message)
     except Exception as e:
         message = f"Other error : {e}"
-        logging.critical(message)
-        raise JSONReaderError(message)
+        logging.error(message)
+        raise JSONWriterError(message)

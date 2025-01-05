@@ -1,4 +1,4 @@
-﻿from src.infrastructure.database.DBConnect import DBConnect
+﻿from src.utils.database.DBConnect import DBConnect
 
 
 class CustomerRepository:

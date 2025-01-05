@@ -1,4 +1,4 @@
-﻿# src\infrastructure\JSONTools\__init__.py
+﻿# src\utils\JSONTools\__init__.py
 
 from .JSONReader import *
 from .JSONWriter import *
