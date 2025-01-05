@@ -56,8 +56,8 @@ def create_database()-> str:
         CREATE TABLE IF NOT EXISTS park (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             parking_number INTEGER NOT NULL,
-            start_time TEXT NOT NULL,
-            end_time TEXT,
+            deposit_time TEXT NOT NULL,
+            retake_time TEXT,
             bike_id INTEGER NOT NULL,
             customer_id INTEGER NOT NULL,
             FOREIGN KEY (bike_id) REFERENCES bike (id),
