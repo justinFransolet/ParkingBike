@@ -21,7 +21,7 @@ class BikeRepository:
         :return: It returns the list of bikes.
         """
         request = """SELECT * FROM bike"""
-        result = self.__db.search_request(request,[])
+        result = self.__db.search_request(request,())
         if result is not None:
             return result
         else:
@@ -38,7 +38,7 @@ class BikeRepository:
         :return: It returns the bike.
         """
         request = """SELECT * FROM bike WHERE id = ?"""
-        result = self.__db.search_request(request, [bike_id])
+        result = self.__db.search_request(request, (bike_id,))
         if result is not None:
             return result[0]
         else:
@@ -57,7 +57,7 @@ class BikeRepository:
         :return: It returns the bike.
         """
         request = """SELECT * FROM bike WHERE model = ? AND colour = ? AND is_electric = ?"""
-        result = self.__db.search_request(request,[model,colour,is_electric])
+        result = self.__db.search_request(request,(model,colour,is_electric))
         if result is not None:
             return result[0]
         else:
@@ -72,7 +72,7 @@ class BikeRepository:
         :param is_electric: This is the is_electric of the bike.
         """
         request = """INSERT INTO bike(model,colour,is_electric) VALUES(?,?,?)"""
-        self.__db.changes_request(request, [model, colour, is_electric])
+        self.__db.changes_request(request, (model, colour, is_electric))
 
     def delete_bike(self, bike_id: int)-> None:
         """
@@ -81,4 +81,4 @@ class BikeRepository:
         :param bike_id: This is the id of the bike.
         """
         request = """DELETE FROM bike WHERE id = ?"""
-        self.__db.changes_request(request,[bike_id])
+        self.__db.changes_request(request,(bike_id,))

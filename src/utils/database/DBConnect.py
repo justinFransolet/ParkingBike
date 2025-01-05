@@ -3,7 +3,7 @@ import logging
 
 # Configure log
 logging.basicConfig(
-    filename="../../infrastructure/database/databaseParking.log",  # Name of the log file
+    filename="databaseConnect.log",  # Name of the log file
     level=logging.INFO,  # Level of the logs
     format="%(asctime)s - %(levelname)s - %(message)s",  # Format of the logs
     datefmt="%Y-%m-%d %H:%M:%S"  # Format of the date
@@ -21,13 +21,13 @@ class DBConnect:
         """
         self.__name = name
 
-    def changes_request(self, request: str, parameters: list)-> bool:
+    def changes_request(self, request: str, parameters: tuple)-> bool:
         """
         Method to execute a changes data request in the database.
         Like INSERT, UPDATE, DELETE.
 
         :param request: Request to changes the data into the database.
-        :param parameters: List of parameters to insert into the request.
+        :param parameters: Tuple of parameters to insert into the request.
 
         :return: True if the request was executed successfully, False otherwise.
         """
@@ -53,12 +53,12 @@ class DBConnect:
                 logging.info("The connection to the database was closed successfully.")
         return success
 
-    def search_request(self, request: str, parameters: list) -> list:
+    def search_request(self, request: str, parameters: tuple) -> list:
         """
         Method to execute a search request in the database (e.g., SELECT).
 
         :param request: Request to execute at the database.
-        :param parameters: List of parameters to insert into the request.
+        :param parameters: Tuple of parameters to insert into the request.
 
         :return: A list of tuples containing the query results, or None if an error occurs.
         """

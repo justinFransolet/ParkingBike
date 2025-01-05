@@ -21,7 +21,7 @@ class ParkRepository:
         :return: It returns the list of park.
         """
         request = """SELECT * FROM park"""
-        result = self.__db.search_request(request,[])
+        result = self.__db.search_request(request,())
         if result is not None:
             return result
         else:
@@ -38,7 +38,7 @@ class ParkRepository:
         :return: It returns the park.
         """
         request = """SELECT * FROM park WHERE id = ?"""
-        result = self.__db.search_request(request, [park_id])
+        result = self.__db.search_request(request, (park_id,))
         if result is not None:
             return result[0]
         else:
@@ -59,7 +59,7 @@ class ParkRepository:
         :return: It returns the park.
         """
         request = """SELECT * FROM park WHERE parking_number = ? AND deposit_time = ? AND retake_time = ? AND bike_id = ? AND customer_id = ?"""
-        result = self.__db.search_request(request,[parking_number,deposit_time,retake_time,bike_id,customer_id])
+        result = self.__db.search_request(request,(parking_number,deposit_time,retake_time,bike_id,customer_id))
         if result is not None:
             return result[0]
         else:
@@ -76,7 +76,7 @@ class ParkRepository:
         :param customer_id: This is the customer id.
         """
         request = """INSERT INTO park(parking_number,deposit_time,retake_time,bike_id,customer_id) VALUES(?,?,?,?,?)"""
-        self.__db.changes_request(request, [parking_number, deposit_time, retake_time, bike_id, customer_id])
+        self.__db.changes_request(request, (parking_number, deposit_time, retake_time, bike_id, customer_id))
 
     def delete_bike(self, park_id: int)-> None:
         """
@@ -85,4 +85,4 @@ class ParkRepository:
         :param park_id: This is the id of the park.
         """
         request = """DELETE FROM park WHERE id = ?"""
-        self.__db.changes_request(request,[park_id])
+        self.__db.changes_request(request,(park_id,))
