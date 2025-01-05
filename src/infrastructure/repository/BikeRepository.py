@@ -66,13 +66,19 @@ class BikeRepository:
     def add_bike(self, model: str, colour: str, is_electric: bool)-> None:
         """
         This method is used to create a bike into the database.
+
+        :param model: This is the model of the bike.
+        :param colour: This is the colour of the bike.
+        :param is_electric: This is the is_electric of the bike.
         """
         request = """INSERT INTO bike(model,colour,is_electric) VALUES(?,?,?)"""
         self.__db.changes_request(request, [model, colour, is_electric])
 
-    def delete_bike(self, bike_id: int):
+    def delete_bike(self, bike_id: int)-> None:
         """
         This method is used to delete the bike by id from the database.
+
+        :param bike_id: This is the id of the bike.
         """
         request = """DELETE FROM bike WHERE id = ?"""
         self.__db.changes_request(request,[bike_id])
