@@ -25,5 +25,53 @@ class Park:
         self.__end_time = end_time
         self.__ticket = ticket
 
+    def get_id(self)-> int:
+        """
+        This method returns the id of the park.
+
+        :return: The id of the park.
+        """
+        return self.__id
+
+    def get_bike(self)-> Bike:
+        """
+        This method returns the bike of the park.
+
+        :return: The bike of the park.
+        """
+        return self.__bike
+
+    def get_customer(self)-> Customer:
+        """
+        This method returns the customer of the park.
+
+        :return: The customer of the park.
+        """
+        return self.__customer
+
+    def get_start_time(self)-> datetime:
+        """
+        This method returns the start time of the park.
+
+        :return: The start time of the park.
+        """
+        return self.__start_time
+
+    def get_end_time(self)-> datetime:
+        """
+        This method returns the end time of the park.
+
+        :return: The end time of the park.
+        """
+        return self.__end_time
+
+    def get_ticket(self)-> int:
+        """
+        This method returns the ticket of the park.
+
+        :return: The ticket of the park.
+        """
+        return self.__ticket
+
     def __str__(self):
         return f'Park {self.__id}: {self.__bike}: {self.__customer}: {self.__start_time}: {self.__end_time}: Ticket: {self.__ticket}'
