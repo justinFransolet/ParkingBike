@@ -65,15 +65,18 @@ class CustomerRepository:
     def add_customer(self, firstname: str, lastname: str)-> None:
         """
         This method is used to create a customer into the database.
+
+        :param firstname: This is the firstname of the customer.
+        :param lastname: This is the lastname of the customer.
         """
         request = """INSERT INTO customer(firstname,lastname) VALUES(?,?)"""
         self.__db.changes_request(request, [firstname, lastname])
 
-    def delete_customer(self, customer_id: int):
+    def delete_customer(self, customer_id: int)-> None:
         """
         This method is used to delete the customer by id from the database.
 
-        :return: It returns the list of customers.
+        :param customer_id: This is the id of the customer.
         """
         request = """DELETE FROM customer WHERE id = ?"""
-        return self.__db.changes_request(request,[customer_id])
+        self.__db.changes_request(request,[customer_id])
