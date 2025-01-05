@@ -29,7 +29,7 @@ class CustomerRepository:
 
     def get_customer_by_id(self, customer_id: int)-> dict:
         """
-        This method is used to get the customer by id from the database.
+        This method is used to get a customer by id from the database.
 
         :param customer_id: This is the id of the customer.
 
@@ -62,10 +62,14 @@ class CustomerRepository:
         else:
             raise ValueError("Customer not found")
 
-    def create_customer(self, customer):
-        pass
+    def add_customer(self, firstname: str, lastname: str)-> None:
+        """
+        This method is used to create a customer into the database.
+        """
+        request = """INSERT INTO customer(firstname,lastname) VALUES(?,?)"""
+        self.__db.changes_request(request, [firstname, lastname])
 
-    def delete_customer(self, customer_id):
+    def delete_customer(self, customer_id: int):
         """
         This method is used to delete the customer by id from the database.
 
