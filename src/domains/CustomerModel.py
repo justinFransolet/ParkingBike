@@ -20,12 +20,16 @@ def create_customer(firstname: str, lastname: str)-> Customer:
     """
 
     # Firstname Check
-    if type(firstname) != str.__class__ or len(firstname) > 50:
-        raise AttributeError("Firstname can't make more of 50 characters" if len(
-            firstname) > 50 else "Firstname of a customer wasn't a string object")
+    if isinstance(firstname,str) :
+        if len(firstname) > 50:
+            raise AttributeError("Firstname can't make more of 50 characters")
+    else:
+        raise AttributeError("Firstname of a customer wasn't a string object")
     # Lastname Check
-    if type(lastname) != str.__class__ or len(lastname) > 50:
-        raise AttributeError("Lastname can't make more of 50 characters" if len(
-            lastname) > 50 else "Lastname of a customer wasn't a string object")
+    if isinstance(lastname,str):
+        if len(lastname) > 50:
+            raise AttributeError("Lastname can't make more of 50 characters")
+    else:
+        raise AttributeError("Lastname of a customer wasn't a string object")
 
     return Customer(firstname,lastname)
