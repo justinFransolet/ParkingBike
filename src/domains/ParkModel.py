@@ -29,19 +29,22 @@ def create_park(bike: Bike, customer: Customer, start_time: datetime, end_time: 
     """
 
     # bike Check
-    if type(bike) != Bike.__class__:
+    if not isinstance(bike,Bike):
         raise AttributeError("Bike of a park wasn't a Bike object")
     # customer Check
-    if type(customer) != Customer.__class__:
+    if not isinstance(customer,Customer):
         raise AttributeError("Customer of a park wasn't a Customer object")
     # start time Check
-    if type(start_time) != datetime.__class__:
+    if not isinstance(start_time,datetime):
         raise AttributeError("Start time of a park wasn't a datetime object")
     # end time Check
-    if type(end_time) != datetime.__class__ and end_time is not None:
+    if not isinstance(end_time,datetime) and end_time is not None:
         raise AttributeError("End time of a park wasn't a datetime object")
     # ticket Check
-    if type(ticket) != int.__class__ or ticket < 1:
-        raise AttributeError("Ticket can't be negative" if ticket < 1 else "Ticket of a park wasn't a integer object")
+    if isinstance(ticket, int):
+        if ticket < 1:
+            raise AttributeError("Ticket can't be negative")
+    else:
+        raise AttributeError("Ticket of a park wasn't a int object")
 
     return Park(bike,customer,start_time,end_time,ticket)
