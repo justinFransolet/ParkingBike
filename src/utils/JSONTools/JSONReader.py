@@ -22,7 +22,7 @@ def read_file(path: str) -> dict:
     :return: The content of the JSON file on a dictionary.
     """
     try:
-        with open(path, 'r', encoding='utf-8') as file:
+        with open(path, 'r', encoding='utf-8-sig') as file:
             donnees = json.load(file)
             return donnees
     except FileNotFoundError:

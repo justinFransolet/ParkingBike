@@ -22,8 +22,10 @@ def write_file(path: str, data: dict) -> None:
 
     :return: True if the file has been written successfully, False otherwise.
     """
+    if type(data)!=type({}):
+        raise JSONWriterError("The data wasn't dictionary")
     try:
-        with open(path, 'w', encoding='utf-8') as file:
+        with open(path, 'w', encoding='utf-8-sig') as file:
             json.dump(data, file, indent=4, ensure_ascii=False)
             logging.info(f"Fichier JSON mis à jour : {path}")
     except FileNotFoundError:
