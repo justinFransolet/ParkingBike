@@ -1,4 +1,4 @@
-# src\interface\__init__.py
+# src\app\__init__.py
 
 from .errorPopUp import *
 from .parking import *

@@ -34,10 +34,10 @@ class ParkingBikeApp(ctk.CTk):
         """
         Constructor of the view of the parking.
 
-        :param appearance: The appearance of the interface.
-        :param color_theme: The color theme of the interface.
-        :param x: The width of the interface.
-        :param y: The height of the interface.
+        :param appearance: The appearance of the app.
+        :param color_theme: The color theme of the app.
+        :param x: The width of the app.
+        :param y: The height of the app.
         """
         super().__init__()
         # Interface configuration
