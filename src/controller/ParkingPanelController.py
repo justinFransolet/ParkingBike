@@ -49,12 +49,12 @@ class ParkingPanelController:
         repository = self.repositories.bike_repository
         try:
             db_bike = repository.get_bike(bike)
-            logging.warning(f"A bike with this id({db_bike.get("id")}) already exist.")
+            logging.warning(f"A bike with this id({db_bike[0]}) already exist.")
         except ValueError:
             repository.add_bike(bike)
             db_bike =  repository.get_bike(bike)
-            logging.info(f"A new bike create with this id({db_bike.get("id")}).")
-        return db_bike.get("id"),bike
+            logging.info(f"A new bike create with this id({db_bike[0]}).")
+        return db_bike[0],bike
 
     def add_customer(self,surname: str, firstname: str)-> (int,Customer):
         """
@@ -75,12 +75,12 @@ class ParkingPanelController:
         repository = self.repositories.customer_repository
         try:
             db_customer = repository.get_customer(customer)
-            logging.warning(f"A customer with this id({db_customer.get("id")}) already exist.")
+            logging.warning(f"A customer with this id({db_customer[0]}) already exist.")
         except ValueError:
             repository.add_customer(customer)
             db_customer = repository.get_customer(customer)
-            logging.info(f"A new bike create with this id({db_customer.get("id")}).")
-        return db_customer.get("id"),customer
+            logging.info(f"A new bike create with this id({db_customer[0]}).")
+        return db_customer[0],customer
 
     def place_bike(self,parking_number: int, model: str, colour: str, surname: str, firstname: str, is_electric: bool) -> Park:
         """
@@ -107,7 +107,7 @@ class ParkingPanelController:
         park = create_park(bike[1], customer[1], datetime.now(), None, parking_number)
         repository.add_park(park,bike[0],customer[0])
         db_park = repository.get_park(park)
-        logging.info(f"A new bike create with this id({db_park.get("id")}).")
+        logging.info(f"A new bike create with this id({db_park[0]}).")
         return park
 
     def return_bike(self,park: Park)-> bool:
