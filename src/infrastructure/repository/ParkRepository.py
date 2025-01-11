@@ -1,3 +1,4 @@
+from src.domains import Park
 from src.utils.database.DBConnect import DBConnect
 
 
@@ -40,49 +41,46 @@ class ParkRepository:
         request = """SELECT * FROM park WHERE id = ?"""
         result = self.__db.search_request(request, (park_id,))
         if result is not None:
+            if len(result) > 1:
+                raise MemoryError("Duplicate park ticket found")
             return result[0]
         else:
-            raise ValueError("Park not found")
+            raise ValueError("Park ticket not found")
 
-    def get_park_by_parameter(self, parking_number: int, deposit_time: str, retake_time: str, bike_id: int, customer_id: int)-> dict:
+    def get_park(self, park: Park)-> dict:
         """
         This method is used to get the park by parking number, deposit_time, retake_time, bike_id and customer_id from the database.
 
-        :param parking_number: This is the parking number of the bike.
-        :param deposit_time: This is the deposit time of the bike.
-        :param retake_time: This is the retake time of the bike.
-        :param bike_id: This is the bike id.
-        :param customer_id: This is the customer id.
+        :param park: This is the park object.
 
         :raises ValueError: If no park found in the database.
 
         :return: It returns the park.
         """
-        request = """SELECT * FROM park WHERE parking_number = ? AND deposit_time = ? AND retake_time = ? AND bike_id = ? AND customer_id = ?"""
-        result = self.__db.search_request(request,(parking_number,deposit_time,retake_time,bike_id,customer_id))
+        request = """SELECT * FROM park WHERE parking_number = ?"""
+        result = self.__db.search_request(request,(park.ticket,))
         if result is not None:
+
             return result[0]
         else:
             raise ValueError("Park not found")
 
-    def add_park(self, parking_number: int, deposit_time: str, retake_time: str, bike_id: int, customer_id: int)-> None:
+    def add_park(self, park: Park,bike_id: int, customer_id: int)-> None:
         """
         This method is used to create a park into the database.
 
-        :param parking_number: This is the parking number of the bike.
-        :param deposit_time: This is the deposit time of the bike.
-        :param retake_time: This is the retake time of the bike.
+        :param park: This is the park object.
         :param bike_id: This is the bike id.
         :param customer_id: This is the customer id.
         """
         request = """INSERT INTO park(parking_number,deposit_time,retake_time,bike_id,customer_id) VALUES(?,?,?,?,?)"""
-        self.__db.changes_request(request, (parking_number, deposit_time, retake_time, bike_id, customer_id))
+        self.__db.changes_request(request, (park.ticket, park.start_time, park.end_time, bike_id, customer_id))
 
-    def delete_bike(self, park_id: int)-> None:
+    def delete_bike(self, ticket: int)-> None:
         """
-        This method is used to delete the park by id from the database.
+        This method is used to delete the park by the ticket from the database.
 
-        :param park_id: This is the id of the park.
+        :param ticket: This is the value of the ticket.
         """
         request = """DELETE FROM park WHERE id = ?"""
-        self.__db.changes_request(request,(park_id,))
+        self.__db.changes_request(request,(ticket,))

@@ -1,4 +1,5 @@
-﻿from src.utils.database.DBConnect import DBConnect
+﻿from src.domains import Customer
+from src.utils.database.DBConnect import DBConnect
 
 
 class CustomerRepository:
@@ -44,33 +45,33 @@ class CustomerRepository:
         else:
             raise ValueError("Customer not found")
 
-    def get_customer_by_parameter(self, firstname: str, lastname: str)-> dict:
+    def get_customer(self, customer: Customer)-> dict:
         """
         This method is used to get the customer by firstname and lastname from the database.
 
-        :param firstname: This is the firstname of the customer.
-        :param lastname: This is the lastname of the customer.
+        :param customer: This is the customer object.
 
         :raises ValueError: If no customers found in the database.
 
         :return: It returns the customer.
         """
         request = """SELECT * FROM customer WHERE firstname = ? AND lastname = ?"""
-        result = self.__db.search_request(request,(firstname,lastname))
+        result = self.__db.search_request(request,(customer.firstname,customer.lastname))
         if result is not None:
+            if len(result) > 1:
+                raise MemoryError("Duplicate customers found")
             return result[0]
         else:
             raise ValueError("Customer not found")
 
-    def add_customer(self, firstname: str, lastname: str)-> None:
+    def add_customer(self, customer: Customer)-> None:
         """
         This method is used to create a customer into the database.
 
-        :param firstname: This is the firstname of the customer.
-        :param lastname: This is the lastname of the customer.
+        :param customer: This is the customer object.
         """
         request = """INSERT INTO customer(firstname,lastname) VALUES(?,?)"""
-        self.__db.changes_request(request, (firstname, lastname))
+        self.__db.changes_request(request, (customer.firstname, customer.lastname))
 
     def delete_customer(self, customer_id: int)-> None:
         """
