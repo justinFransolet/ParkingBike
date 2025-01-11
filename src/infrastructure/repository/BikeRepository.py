@@ -51,7 +51,8 @@ class BikeRepository:
 
         :param bike: This is the bike to get.
 
-        :raises ValueError: If the bike is duplicate or no bike found in the database.
+        :raises ValueError: If no bike found in the database.
+        :raises MemoryError: If duplicate bikes found in the database.
 
         :return: It returns the bike.
         """
@@ -59,21 +60,19 @@ class BikeRepository:
         result = self.__db.search_request(request,(bike.model,bike.colour,bike.is_electric))
         if result is not None:
             if len(result) > 1:
-                raise ValueError("Duplicate bikes found")
+                raise MemoryError("Duplicate bikes found")
             return result[0]
         else:
             raise ValueError("Bike not found")
 
-    def add_bike(self, model: str, colour: str, is_electric: bool)-> None:
+    def add_bike(self, bike: Bike)-> None:
         """
         This method is used to create a bike into the database.
 
-        :param model: This is the model of the bike.
-        :param colour: This is the colour of the bike.
-        :param is_electric: This is the is_electric of the bike.
+        :param bike: This is the bike to create.
         """
         request = """INSERT INTO bike(model,colour,is_electric) VALUES(?,?,?)"""
-        self.__db.changes_request(request, (model, colour, is_electric))
+        self.__db.changes_request(request, (bike.model, bike.colour, bike.is_electric))
 
     def delete_bike(self, bike_id: int)-> None:
         """
