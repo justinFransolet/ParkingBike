@@ -1,6 +1,7 @@
 ﻿import customtkinter as ctk
 from tkinter import ttk
 from ErrorDisplayer import ErrorPopUp
+from src.controller import ParkingPanelController
 
 
 def validate_int(new_value: str)-> bool:
@@ -30,7 +31,7 @@ class ParkingBikeApp(ctk.CTk):
     """
     This class is the view of the parking whose role is to display the data and interact with it.
     """
-    def __init__(self,appearance: str, color_theme:str,x: int, y: int)-> None:
+    def __init__(self, controller: ParkingPanelController, appearance: str, color_theme:str,x: int, y: int)-> None:
         """
         Constructor of the view of the parking.
 
@@ -39,7 +40,10 @@ class ParkingBikeApp(ctk.CTk):
         :param x: The width of the app.
         :param y: The height of the app.
         """
+        # Initialize the parent class
         super().__init__()
+        # Set controller
+        self.controller = controller
         # Interface configuration
         ctk.set_appearance_mode(appearance)
         ctk.set_default_color_theme(color_theme)
@@ -143,13 +147,17 @@ class ParkingBikeApp(ctk.CTk):
         if parking_number and model and colour and surname and firstname and is_electric:
             try:
                 is_boolean_choose(is_electric)
-                # TODO : Park the bike in the parking and verify the data
+                self.controller.place_bike(int(parking_number), model, colour, surname, firstname, True if is_electric=="True" else False)
+                self.table.insert("", "end", values=(parking_number, model, colour, is_electric, surname, firstname))
+                self.clear_entries()
             except ValueError as e:
                 popup = ErrorPopUp(400,150,"Error", str(e))
                 popup.wait_window()
                 return
-            self.table.insert("", "end", values=(parking_number, model, colour, is_electric, surname, firstname))
-            self.clear_entries()
+            except Exception as e:
+                popup = ErrorPopUp(400,150,"Error", str(e))
+                popup.wait_window()
+                return
         else:
             popup = ErrorPopUp(400,150,"Error", "All required fields must be filled!")
             popup.wait_window()
@@ -161,7 +169,3 @@ class ParkingBikeApp(ctk.CTk):
         for entry in [self.parking_number_entry, self.model_entry, self.colour_entry, self.surname_entry, self.firstname_entry]:
             entry.delete(0, "end")
         self.is_electric_var.set("True")
-
-if __name__ == "__main__":
-    app = ParkingBikeApp("dark", "dark-blue",800,600)
-    app.mainloop()
