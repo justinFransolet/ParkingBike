@@ -30,7 +30,7 @@ class ParkRepository:
         else:
             raise ValueError("No park found")
 
-    def get_park_by_id(self, park_id: int)-> dict:
+    def get_park_by_id(self, park_id: int)-> tuple:
         """
         This method is used to get a park by id from the database.
 
@@ -49,7 +49,7 @@ class ParkRepository:
         else:
             raise ValueError("Park ticket not found")
 
-    def get_park(self, park: Park)-> dict:
+    def get_park(self, park: Park)-> tuple:
         """
         This method is used to get the park by parking number, deposit_time, retake_time, bike_id and customer_id from the database.
 

@@ -28,7 +28,7 @@ class CustomerRepository:
         else:
             raise ValueError("No customers found")
 
-    def get_customer_by_id(self, customer_id: int)-> dict:
+    def get_customer_by_id(self, customer_id: int)-> tuple:
         """
         This method is used to get a customer by id from the database.
 
@@ -45,7 +45,7 @@ class CustomerRepository:
         else:
             raise ValueError("Customer not found")
 
-    def get_customer(self, customer: Customer)-> dict:
+    def get_customer(self, customer: Customer)-> tuple:
         """
         This method is used to get the customer by firstname and lastname from the database.
 

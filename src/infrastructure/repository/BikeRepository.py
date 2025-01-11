@@ -36,14 +36,14 @@ class BikeRepository:
 
         :return: It returns the list of bikes.
         """
-        request = """SELECT * FROM bike WHERE id NOT IN (SELECT bike_id FROM park WHERE return_date IS NULL)"""
+        request = """SELECT * FROM bike WHERE id NOT IN (SELECT bike_id FROM park WHERE park.retake_time IS NULL)"""
         result = self.__db.search_request(request, ())
         if result is not None:
             return result
         else:
             raise ValueError("No bike found")
 
-    def get_bike_by_id(self, bike_id: int)-> dict:
+    def get_bike_by_id(self, bike_id: int)-> tuple:
         """
         This method is used to get a bike by id from the database.
 
@@ -60,7 +60,7 @@ class BikeRepository:
         else:
             raise ValueError("Bike not found")
 
-    def get_bike(self, bike: Bike)-> dict:
+    def get_bike(self, bike: Bike)-> tuple:
         """
         This method is used to get the bike by parameters from the database.
 
