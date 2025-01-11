@@ -28,6 +28,21 @@ class BikeRepository:
         else:
             raise ValueError("No bike found")
 
+    def get_bike_parking(self) -> list:
+        """
+        This method is used to get all the bikes into the parking(not retake by a customer).
+
+        :raises ValueError: If no bike found in the database.
+
+        :return: It returns the list of bikes.
+        """
+        request = """SELECT * FROM bike WHERE id NOT IN (SELECT bike_id FROM park WHERE return_date IS NULL)"""
+        result = self.__db.search_request(request, ())
+        if result is not None:
+            return result
+        else:
+            raise ValueError("No bike found")
+
     def get_bike_by_id(self, bike_id: int)-> dict:
         """
         This method is used to get a bike by id from the database.
