@@ -1,3 +1,4 @@
+from src.domains import Bike
 from src.utils.database.DBConnect import DBConnect
 
 
@@ -44,21 +45,21 @@ class BikeRepository:
         else:
             raise ValueError("Bike not found")
 
-    def get_bike_by_parameter(self, model: str, colour: str, is_electric: bool)-> dict:
+    def get_bike(self, bike: Bike)-> dict:
         """
-        This method is used to get the bike by model, colour and is_electric from the database.
+        This method is used to get the bike by parameters from the database.
 
-        :param model: This is the model of the bike.
-        :param colour: This is the colour of the bike.
-        :param is_electric: This is the is_electric of the bike.
+        :param bike: This is the bike to get.
 
-        :raises ValueError: If no bike found in the database.
+        :raises ValueError: If the bike is duplicate or no bike found in the database.
 
         :return: It returns the bike.
         """
         request = """SELECT * FROM bike WHERE model = ? AND colour = ? AND is_electric = ?"""
-        result = self.__db.search_request(request,(model,colour,is_electric))
+        result = self.__db.search_request(request,(bike.model,bike.colour,bike.is_electric))
         if result is not None:
+            if len(result) > 1:
+                raise ValueError("Duplicate bikes found")
             return result[0]
         else:
             raise ValueError("Bike not found")
