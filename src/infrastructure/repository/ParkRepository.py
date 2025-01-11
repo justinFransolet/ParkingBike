@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from src.domains import Park
 from src.utils.database.DBConnect import DBConnect
 
@@ -84,3 +86,13 @@ class ParkRepository:
         """
         request = """DELETE FROM park WHERE id = ?"""
         self.__db.changes_request(request,(ticket,))
+
+    def update_retake_date(self, park: Park,retake_date: datetime)-> None:
+        """
+        This method is used to change the return date into the database.
+
+        :param park: This is the park object.
+        :param retake_date: This is the retake date.
+        """
+        request = """UPDATE park SET retake_time = ? WHERE parking_number = ? AND retake_time IS NULL AND deposit_time = ?"""
+        self.__db.changes_request(request, (retake_date, park.ticket, park.start_time))
