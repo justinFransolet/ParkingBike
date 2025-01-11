@@ -1,6 +1,6 @@
 ﻿import customtkinter as ctk
 from tkinter import ttk
-from ErrorDisplayer import ErrorPopUp
+from .ErrorDisplayer import ErrorPopUp
 from src.controller import ParkingPanelController
 
 
