@@ -1,7 +1,7 @@
 # src\app\__init__.py
 
-from .errorPopUp import *
-from .parking import *
-from .archives import *
-from .home import *
-from .statistics import *
+from .ErrorDisplayer import *
+from .ParkingPanel import *
+from .DataVisualizer import *
+from .Home import *
+from .DataAnalyser import *

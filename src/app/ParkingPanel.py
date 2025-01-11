@@ -1,6 +1,6 @@
 ﻿import customtkinter as ctk
 from tkinter import ttk
-from errorPopUp import ErrorPopUp
+from ErrorDisplayer import ErrorPopUp
 
 
 def validate_int(new_value: str)-> bool:
