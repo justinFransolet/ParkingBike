@@ -3,3 +3,4 @@
 from .BikeRepository import *
 from .ParkRepository import *
 from .CustomerRepository import *
+from .RepositoriesManager import *
