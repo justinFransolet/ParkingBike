@@ -1,1 +1,2 @@
 ﻿customtkinter==5.2.2
+pillow~=11.1.0

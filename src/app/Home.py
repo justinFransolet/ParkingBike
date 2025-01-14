@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import PIL.Image
 
-from src.app import Tooltip
+from src.app import Tooltip, ErrorPopUp
 from src.controller import HomeController
 
 
@@ -22,7 +22,7 @@ class HomeApp(ctk.CTk):
         # Initialize the parent class
         super().__init__()
         # Set controller
-        self.controller = controller
+        self.__controller = controller
         # Interface configuration
         ctk.set_appearance_mode(appearance)
         ctk.set_default_color_theme(color_theme)
@@ -43,7 +43,7 @@ class HomeApp(ctk.CTk):
         header_container.columnconfigure(2, weight=1)  # Right column for switches
 
         # Title
-        header = ctk.CTkLabel(header_container, text="VTT", font=("Arial", 24))
+        header = ctk.CTkLabel(header_container, text="Mountain Bike Parking", font=("Arial", 24))
         header.grid(row=0, column=0, pady=self.__y_pad, sticky="ew")
 
         # Parameters (Switches)
@@ -60,8 +60,8 @@ class HomeApp(ctk.CTk):
         left_label.grid(row=0, column=0, padx=5, sticky="w")
 
         # Switch
-        self.theme = ctk.StringVar(value="Dark")
-        theme_switch = ctk.CTkSwitch(switch_container, text="Dark", variable=self.theme, onvalue="Dark", offvalue="Light")
+        self.theme = ctk.StringVar(value=self.__controller.get_selected_theme())
+        theme_switch = ctk.CTkSwitch(switch_container, text="Dark", variable=self.theme, onvalue="dark", offvalue="light")
         theme_switch.grid(row=0, column=1, padx=5, sticky="ew")
 
         # Language Switch
@@ -74,8 +74,8 @@ class HomeApp(ctk.CTk):
         left_lang_label.grid(row=0, column=0, padx=5, sticky="w")
 
         # Switch
-        self.lang = ctk.StringVar(value="EN")
-        lang_switch = ctk.CTkSwitch(lang_container, text="EN", variable=self.lang, onvalue="EN", offvalue="FR")
+        self.lang = ctk.StringVar(value=self.__controller.get_selected_lang())
+        lang_switch = ctk.CTkSwitch(lang_container, text="EN", variable=self.lang, onvalue="en", offvalue="fr")
         lang_switch.grid(row=0, column=1, padx=5, sticky="ew")
 
         # Buttons
@@ -115,7 +115,40 @@ class HomeApp(ctk.CTk):
         footer = ctk.CTkLabel(self, text="Created by Fransolet Justin", font=("Arial", 13))
         footer.grid(row=2, column=0, columnspan=3, pady=self.__y_pad, sticky="nsew")
 
-if __name__ == "__main__":
-    controller = HomeController()
-    app = HomeApp(controller, "dark", "dark-blue", 520, 240)
-    app.mainloop()
+    def open_visualizer(self):
+        """
+        Open the visualizer app.
+        """
+        self.__controller.open_visualizer()
+        self.destroy()
+
+    def open_parking(self):
+        """
+        Open the parking app.
+        """
+        self.__controller.open_parking()
+        self.destroy()
+
+    def open_analyzer(self):
+        """
+        Open the analyzer app.
+        """
+        self.__controller.open_analyzer()
+        self.destroy()
+
+    def changes_theme(self):
+        """
+        Change the theme of the app.
+        """
+        try:
+            self.__controller.changes_theme(self.theme.get())
+        except Exception as e:
+            ErrorPopUp(400,150,"Error", str(e))
+    def changes_lang(self):
+        """
+        Change the language of the app.
+        """
+        try:
+            self.__controller.changes_lang(self.lang.get())
+        except Exception as e:
+            ErrorPopUp(400,150,"Error", str(e))
