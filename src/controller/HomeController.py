@@ -37,7 +37,7 @@ class HomeController:
         # Controller
         controller = ParkingPanelController(repositories)
         # App
-        ParkingBikeApp(controller, "dark", "dark-blue", 800, 600).mainloop()
+        ParkingBikeApp(controller, self.get_selected_appearance(), self.get_color_theme(), 800, 600).mainloop()
 
     def open_analyzer(self)-> None:
         """
