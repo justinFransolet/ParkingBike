@@ -86,12 +86,29 @@ class HomeController:
 
         :return: The selected language.
         """
-        return self.json_manager.get_language()
+        try:
+            return self.json_manager.get_language()
+        except Exception as e:
+            raise Exception(str(e))
 
-    def get_selected_theme(self)-> str:
+    def get_selected_appearance(self)-> str:
         """
         Get the selected theme.
 
         :return: The selected theme.
         """
-        return self.json_manager.get_appearance()
+        try:
+            return self.json_manager.get_appearance()
+        except Exception as e:
+            raise Exception(str(e))
+
+    def get_color_theme(self)-> str:
+        """
+        Get the color theme.
+
+        :return: The color theme.
+        """
+        try:
+            return self.json_manager.get_color_theme()
+        except Exception as e:
+            raise Exception(str(e))

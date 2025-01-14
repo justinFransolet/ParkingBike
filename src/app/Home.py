@@ -24,8 +24,11 @@ class HomeApp(ctk.CTk):
         # Set controller
         self.__controller = controller
         # Interface configuration
-        ctk.set_appearance_mode(appearance)
-        ctk.set_default_color_theme(color_theme)
+        try:
+            ctk.set_appearance_mode(self.__controller.get_selected_appearance())
+            ctk.set_default_color_theme(self.__controller.get_color_theme())
+        except Exception as e:
+            ErrorPopUp(400,150,"Error", str(e))
         self.__x = x
         self.__y = y
         self.title("Home")
@@ -60,23 +63,26 @@ class HomeApp(ctk.CTk):
         left_label.grid(row=0, column=0, padx=5, sticky="w")
 
         # Switch
-        self.theme = ctk.StringVar(value=self.__controller.get_selected_theme())
+        self.theme = ctk.StringVar(value=self.__controller.get_selected_appearance())
         theme_switch = ctk.CTkSwitch(switch_container, text="Dark", variable=self.theme, onvalue="dark", offvalue="light")
         theme_switch.grid(row=0, column=1, padx=5, sticky="ew")
 
         # Language Switch
-        # Conteneur pour le switch et les labels
-        lang_container = ctk.CTkFrame(param_container)
-        lang_container.grid(row=1, column=0, columnspan=2, pady=self.__y_pad, sticky="ew")
+        try:
+            # Conteneur pour le switch et les labels
+            lang_container = ctk.CTkFrame(param_container)
+            lang_container.grid(row=1, column=0, columnspan=2, pady=self.__y_pad, sticky="ew")
 
-        # Texte à gauche
-        left_lang_label = ctk.CTkLabel(lang_container, text="FR")
-        left_lang_label.grid(row=0, column=0, padx=5, sticky="w")
+            # Texte à gauche
+            left_lang_label = ctk.CTkLabel(lang_container, text="FR")
+            left_lang_label.grid(row=0, column=0, padx=5, sticky="w")
 
-        # Switch
-        self.lang = ctk.StringVar(value=self.__controller.get_selected_lang())
-        lang_switch = ctk.CTkSwitch(lang_container, text="EN", variable=self.lang, onvalue="en", offvalue="fr")
-        lang_switch.grid(row=0, column=1, padx=5, sticky="ew")
+            # Switch
+            self.lang = ctk.StringVar(value=self.__controller.get_selected_lang())
+            lang_switch = ctk.CTkSwitch(lang_container, text="EN", variable=self.lang, onvalue="en", offvalue="fr")
+            lang_switch.grid(row=0, column=1, padx=5, sticky="ew")
+        except Exception as e:
+            ErrorPopUp(400,150,"Error", str(e))
 
         # Buttons
         button_container = ctk.CTkFrame(self)
