@@ -35,6 +35,7 @@ class ParkingBikeApp(ctk.CTk):
         """
         Constructor of the view of the parking.
 
+        :param controller: The controller of the app.
         :param appearance: The appearance of the app.
         :param color_theme: The color theme of the app.
         :param x: The width of the app.
@@ -97,10 +98,11 @@ class ParkingBikeApp(ctk.CTk):
         table_frame.grid(row=3, column=0, columnspan=2, padx=self.__x_pad, pady=self.__y_pad, sticky="nsew")
 
         ctk.CTkLabel(table_frame, text="Parking", font=("Arial", 16)).grid(row=0, column=0, columnspan=2, pady=self.__y_pad)
+        # Add the search bar
         self.search_bar = ctk.CTkEntry(table_frame, placeholder_text="Search")
         self.search_bar.grid(row=1, column=0, columnspan=2, padx=10, pady=self.__y_pad)
 
-        self.table = ttk.Treeview(table_frame, columns=("parking", "model", "colour", "electric", "surname", "firstname"), show="headings")
+        self.table = ttk.Treeview(table_frame, columns=("parking", "model", "colour", "electric", "surname", "firstname", "button"), show="headings")
         self.table.grid(row=2, column=0, columnspan=2, pady=self.__y_pad, sticky="nsew")
         self.table.heading("parking", text="Parking number")
         self.table.heading("model", text="Model")
@@ -108,9 +110,11 @@ class ParkingBikeApp(ctk.CTk):
         self.table.heading("electric", text="Electric")
         self.table.heading("surname", text="Surname")
         self.table.heading("firstname", text="Firstname")
+        self.table.heading("button", text="Return")
 
+        # Ensure the table_frame and table expand to fill the available space
         self.grid_rowconfigure(3, weight=1)
-        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(0, weight=1)
         table_frame.grid_rowconfigure(2, weight=1)
         table_frame.grid_columnconfigure(0, weight=1)
 
