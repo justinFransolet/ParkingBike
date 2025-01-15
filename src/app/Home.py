@@ -1,7 +1,7 @@
-import customtkinter as ctk
+import os
 import PIL.Image
-
-from src.app import Tooltip, ErrorPopUp
+from src.app import ErrorPopUp
+from src.app.Tooltip import *
 from src.controller import HomeController
 
 
@@ -9,13 +9,11 @@ class HomeApp(ctk.CTk):
     """
     This class is the view of the parking whose role is to display the data and interact with it.
     """
-    def __init__(self, controller: HomeController, appearance: str, color_theme: str, x: int, y: int) -> None:
+    def __init__(self, controller: HomeController, x: int, y: int) -> None:
         """
         Constructor of the view of the parking.
 
         :param controller: The controller of the app.
-        :param appearance: The appearance of the app.
-        :param color_theme: The color theme of the app.
         :param x: The width of the app.
         :param y: The height of the app.
         """
@@ -89,14 +87,18 @@ class HomeApp(ctk.CTk):
         button_container.grid(row=1, column=0, columnspan=3, pady=self.__y_pad, sticky="nsew")
         button_container.columnconfigure((0, 1, 2), weight=1)  # Equal spacing for buttons
 
+        # Find path of images
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        images_path = os.path.join(base_path, "images")
+
         # Load image
-        image_btn1  = PIL.Image.open("images/Visualizer.png")
+        image_btn1 = PIL.Image.open(os.path.join(images_path, "Visualizer.png"))
         button1_image = ctk.CTkImage(light_image=image_btn1, dark_image=image_btn1,size=(48, 48))
 
-        image_btn2 = PIL.Image.open("images/Parking.png")
+        image_btn2 = PIL.Image.open(os.path.join(images_path, "Parking.png"))
         button2_image = ctk.CTkImage(light_image=image_btn2, dark_image=image_btn2, size=(48, 48))
 
-        image_btn3 = PIL.Image.open("images/Analyzer.png")
+        image_btn3 = PIL.Image.open(os.path.join(images_path, "Analyzer.png"))
         button3_image = ctk.CTkImage(light_image=image_btn3, dark_image=image_btn3, size=(48, 48))
 
         # Button Visualizer

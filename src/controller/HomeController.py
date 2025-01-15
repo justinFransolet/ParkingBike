@@ -1,5 +1,3 @@
-from src.app import ParkingBikeApp
-from src.controller import ParkingPanelController
 from src.infrastructure import JSONManager, BikeRepository, CustomerRepository, ParkRepository, RepositoriesManager
 from src.utils.database import DBConnect
 
@@ -29,6 +27,8 @@ class HomeController:
         """
         Open the parking app.
         """
+        from src.app import ParkingBikeApp
+        from src.controller import ParkingPanelController
         # Repository
         bike = BikeRepository(self.db_connect)
         customer = CustomerRepository(self.db_connect)

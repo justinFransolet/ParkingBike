@@ -1,6 +1,6 @@
 ﻿from tkinter import Event
-
 import customtkinter as ctk
+
 class Tooltip:
     """
     This class is used to create a tooltip for a widget.
