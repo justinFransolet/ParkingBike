@@ -31,7 +31,7 @@ class HomeApp:
         self.__y = y
         self.__app.title("Home")
         self.__app.geometry(f"{x}x{y}")
-        self.__app.resizable(True, True)
+        self.__app.resizable(False, False)
         # Padding
         self.__x_pad = round(2.5 * (x / 100) + 5)
         self.__y_pad = round(1.6 * (y / 100) + 3.2)
@@ -63,13 +63,14 @@ class HomeApp:
         left_label.grid(row=0, column=0, padx=5, sticky="w")
 
         # Switch
-        self.__theme = ctk.StringVar(value=self.__controller.get_selected_appearance())
-        theme_switch = ctk.CTkSwitch(switch_container, text="Dark", variable=self.__theme, onvalue="dark", offvalue="light")
-        theme_switch.grid(row=0, column=1, padx=5, sticky="ew")
-
-
-        # Language Switch
         try:
+            # Theme Switch
+            self.__theme = ctk.StringVar(value=self.__controller.get_selected_appearance())
+            theme_switch = ctk.CTkSwitch(switch_container, text="Dark", variable=self.__theme, onvalue="dark", offvalue="light",command=self.changes_theme)
+            theme_switch.grid(row=0, column=1, padx=5, sticky="ew")
+
+
+            # Language Switch
             # Conteneur pour le switch et les labels
             lang_container = ctk.CTkFrame(param_container)
             lang_container.grid(row=1, column=0, columnspan=2, pady=self.__y_pad, sticky="ew")
@@ -80,7 +81,7 @@ class HomeApp:
 
             # Switch
             self.__lang = ctk.StringVar(value=self.__controller.get_selected_lang())
-            lang_switch = ctk.CTkSwitch(lang_container, text="EN", variable=self.__lang, onvalue="en", offvalue="fr")
+            lang_switch = ctk.CTkSwitch(lang_container, text="EN", variable=self.__lang, onvalue="en", offvalue="fr",command=self.changes_lang)
             lang_switch.grid(row=0, column=1, padx=5, sticky="ew")
         except Exception as e:
             ErrorPopUp(400,150,"Error", str(e))
@@ -168,6 +169,8 @@ class HomeApp:
         """
         try:
             self.__controller.changes_theme(self.__theme.get())
+            ctk.set_appearance_mode(self.__controller.get_selected_appearance())
+            ctk.set_default_color_theme(self.__controller.get_color_theme())
         except Exception as e:
             ErrorPopUp(400,150,"Error", str(e))
     def changes_lang(self):
