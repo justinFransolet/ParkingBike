@@ -1,14 +1,15 @@
+from customtkinter import CTk
 from src.infrastructure import JSONManager, BikeRepository, CustomerRepository, ParkRepository, RepositoriesManager
 from src.utils.database import DBConnect
 
 
 class HomeController:
     """
-    This class is the controller of the home app.
+    This class is the controller of the home view.
     """
     def __init__(self,path_params: str, path_db: str)-> None:
         """
-        Constructor of the controller of the home app.
+        Constructor of the controller of the home view.
 
         :param path_params: The path of the parameters file.
         :param path_db: The path of the database file.
@@ -16,18 +17,22 @@ class HomeController:
         self.json_manager = JSONManager(path_params)
         self.db_connect = DBConnect(path_db)
 
-    def open_visualizer(self)-> None:
+    def open_visualizer(self,app: CTk)-> None:
         """
-        Open the visualizer app.
-        """
-        # TODO : Implement the visualizer app
-        pass
+        Open the visualizer view.
 
-    def open_parking(self)-> None:
+        :param app: The application object.
         """
-        Open the parking app.
+        # TODO : Implement the visualizer view
+        raise NotImplementedError("The visualizer view is not implemented yet.")
+
+    def open_parking(self, app: CTk)-> None:
         """
-        from src.app import ParkingBikeApp
+        Open the parking view.
+
+        :param app: The application object.
+        """
+        from src.view import ParkingPanel
         from src.controller import ParkingPanelController
         # Repository
         bike = BikeRepository(self.db_connect)
@@ -37,18 +42,20 @@ class HomeController:
         # Controller
         controller = ParkingPanelController(repositories)
         # App
-        ParkingBikeApp(controller, self.get_selected_appearance(), self.get_color_theme(), 800, 600).mainloop()
+        ParkingPanel(app,controller, self.get_selected_appearance(), self.get_color_theme(), 800, 600)
 
-    def open_analyzer(self)-> None:
+    def open_analyzer(self, app: CTk)-> None:
         """
-        Open the analyzer app.
+        Open the analyzer view.
+
+        :param app: The application object.
         """
-        # TODO : Implement the analyzer app
-        pass
+        # TODO : Implement the analyzer view
+        raise NotImplementedError("The analyzer view is not implemented yet.")
 
     def changes_theme(self, param: str)-> bool:
         """
-        Change the theme of the app.
+        Change the theme of the view.
 
         :param param: The choose theme.
         :return: True if the theme is changed, False otherwise.
@@ -66,7 +73,7 @@ class HomeController:
 
     def changes_lang(self, param: str)-> bool:
         """
-        Change the language of the app.
+        Change the language of the view.
 
         :param param: The choose language.
         :return: True if the language is changed, False otherwise.

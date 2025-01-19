@@ -1,4 +1,4 @@
-# src\app\__init__.py
+# src\view\__init__.py
 
 from .ErrorDisplayer import *
 from .ParkingPanel import *

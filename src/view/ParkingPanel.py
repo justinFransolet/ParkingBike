@@ -27,22 +27,23 @@ def is_boolean_choose(data: str)-> None:
     return
 
 
-class ParkingBikeApp(ctk.CTk):
+class ParkingPanel:
     """
     This class is the view of the parking whose role is to display the data and interact with it.
     """
-    def __init__(self, controller: ParkingPanelController, appearance: str, color_theme:str,x: int, y: int)-> None:
+    def __init__(self, app: ctk.CTk, controller: ParkingPanelController, appearance: str, color_theme:str,x: int, y: int)-> None:
         """
         Constructor of the view of the parking.
 
-        :param controller: The controller of the app.
-        :param appearance: The appearance of the app.
-        :param color_theme: The color theme of the app.
-        :param x: The width of the app.
-        :param y: The height of the app.
+        :param app: The application object.
+        :param controller: The controller of the view.
+        :param appearance: The appearance of the view.
+        :param color_theme: The color theme of the view.
+        :param x: The width of the view.
+        :param y: The height of the view.
         """
-        # Initialize the parent class
-        super().__init__()
+
+        self.__app = app
         # Set controller
         self.controller = controller
         # Interface configuration
@@ -50,20 +51,20 @@ class ParkingBikeApp(ctk.CTk):
         ctk.set_default_color_theme(color_theme)
         self.__x = x
         self.__y = y
-        self.title("Parking Bike")
-        self.geometry(f"{x}x{y}")
-        self.resizable(True, True)
+        self.__app.title("Parking Bike")
+        self.__app.geometry(f"{x}x{y}")
+        self.__app.resizable(True, True)
         # Padding
         self.__x_pad = round(2.5 * (x / 100) + 5)
         self.__y_pad = round(1.6 * (y / 100) + 3.2)
 
         # Header
-        header = ctk.CTkLabel(self, text="Parking Bike", font=("Arial", 24))
+        header = ctk.CTkLabel(self.__app, text="Parking Bike", font=("Arial", 24))
         header.grid(row=0, column=0, columnspan=2, pady=self.__y_pad, sticky="nsew")
 
 
         # Form container
-        form_container = ctk.CTkFrame(self)
+        form_container = ctk.CTkFrame(self.__app)
         form_container.grid(row=1, column=0, columnspan=2, padx=self.__x_pad, pady=self.__y_pad, sticky="nsew")
 
         # Form for owner information
@@ -90,11 +91,11 @@ class ParkingBikeApp(ctk.CTk):
         self.parking_number_entry.configure(validate="key", validatecommand=(self.parking_number_entry.register(validate_int), "%P"))
 
         # Add the park button
-        self.park_button = ctk.CTkButton(self, text="Park", command=self.park_bike)
+        self.park_button = ctk.CTkButton(self.__app, text="Park", command=self.park_bike)
         self.park_button.grid(row=2, column=0, columnspan=2, pady=self.__y_pad)
 
         # Parking view
-        table_frame = ctk.CTkFrame(self)
+        table_frame = ctk.CTkFrame(self.__app)
         table_frame.grid(row=3, column=0, columnspan=2, padx=self.__x_pad, pady=self.__y_pad, sticky="nsew")
 
         ctk.CTkLabel(table_frame, text="Parking", font=("Arial", 16)).grid(row=0, column=0, columnspan=2, pady=self.__y_pad)
@@ -113,13 +114,13 @@ class ParkingBikeApp(ctk.CTk):
         self.table.heading("button", text="Return")
 
         # Ensure the table_frame and table expand to fill the available space
-        self.grid_rowconfigure(3, weight=1)
-        self.grid_columnconfigure(0, weight=1)
+        self.__app.grid_rowconfigure(3, weight=1)
+        self.__app.grid_columnconfigure(0, weight=1)
         table_frame.grid_rowconfigure(2, weight=1)
         table_frame.grid_columnconfigure(0, weight=1)
 
         # Footer
-        footer = ctk.CTkLabel(self, text="Created by Fransolet Justin", font=("Arial", 11))
+        footer = ctk.CTkLabel(self.__app, text="Created by Fransolet Justin", font=("Arial", 11))
         footer.grid(row=4, column=0, columnspan=2, pady=self.__y_pad, sticky="nsew")
 
     def create_entry(self, parent: ctk.CTkFrame, label_text: str,row: int)-> ctk.CTkEntry:
