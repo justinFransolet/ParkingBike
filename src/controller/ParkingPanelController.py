@@ -3,14 +3,6 @@ from datetime import datetime
 import logging
 from src.infrastructure import RepositoriesManager
 
-# Configure log
-logging.basicConfig(
-    filename="ParkingPanel.log",  # Name of the log file
-    level=logging.INFO,  # Level of the logs
-    format="%(asctime)s - %(levelname)s - %(message)s",  # Format of the logs
-    datefmt="%Y-%m-%d %H:%M:%S"  # Format of the date
-)
-
 class ParkingPanelController:
     """
     Controller for managing the parking panel operations.
