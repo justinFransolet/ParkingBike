@@ -137,8 +137,8 @@ class HomeApp:
         Open the visualizer view.
         """
         try:
-            self.destroy()
             self.__controller.open_visualizer(self.__app)
+            self.destroy()
         except Exception as e:
             ErrorPopUp(400,150,"Error", str(e))
 
@@ -147,8 +147,8 @@ class HomeApp:
         Open the parking view.
         """
         try:
-            self.destroy()
             self.__controller.open_parking(self.__app)
+            self.destroy()
         except Exception as e:
             ErrorPopUp(400,150,"Error", str(e))
 
@@ -157,8 +157,8 @@ class HomeApp:
         Open the analyzer view.
         """
         try:
-            self.destroy()
             self.__controller.open_analyzer(self.__app)
+            self.destroy()
         except Exception as e:
             ErrorPopUp(400,150,"Error", str(e))
 
