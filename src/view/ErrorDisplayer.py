@@ -34,6 +34,9 @@ class ErrorPopUp(ctk.CTkToplevel):
         # Close button
         button = ctk.CTkButton(self, text="Close", command=self.__close__)
         button.pack(padx=x_pad, pady=y_pad)
+
+        self.focus_force()
+        self.grab_set()
     def __close__(self)-> None:
         """
         Method to close the pop-up.

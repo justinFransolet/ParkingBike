@@ -155,17 +155,11 @@ class ParkingPanel:
                 self.controller.place_bike(int(parking_number), model, colour, surname, firstname, True if is_electric=="True" else False)
                 self.table.insert("", "end", values=(parking_number, model, colour, is_electric, surname, firstname))
                 self.clear_entries()
-            except ValueError as e:
-                popup = ErrorPopUp(400,150,"Error", str(e))
-                popup.wait_window()
-                return
             except Exception as e:
-                popup = ErrorPopUp(400,150,"Error", str(e))
-                popup.wait_window()
+                ErrorPopUp(400,150,"Error", str(e))
                 return
         else:
-            popup = ErrorPopUp(400,150,"Error", "All required fields must be filled!")
-            popup.wait_window()
+            ErrorPopUp(400,150,"Error", "All required fields must be filled!")
 
     def clear_entries(self):
         """
