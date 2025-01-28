@@ -42,7 +42,7 @@ class HomeController:
         # Controller
         controller = ParkingPanelController(repositories)
         # App
-        ParkingPanel(app,controller, self.get_selected_appearance(), self.get_color_theme(), 800, 600)
+        ParkingPanel(app,controller, self.get_selected_appearance(), self.get_color_theme(), 1300, 700)
 
     def open_analyzer(self, app: CTk)-> None:
         """
