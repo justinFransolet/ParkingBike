@@ -23,7 +23,7 @@ class ParkRepository:
 
         :return: It returns the list of park.
         """
-        request = """SELECT * FROM park"""
+        request = """SELECT p.parking_number, b.model, b.colour, b.is_electric, c.firstname, c.lastname, p.id FROM park p LEFT JOIN bike b ON p.bike_id = b.id LEFT JOIN customer c ON p.customer_id = c.id"""
         result = self.__db.search_request(request,())
         if result is not None:
             return result
