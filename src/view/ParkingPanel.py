@@ -45,7 +45,7 @@ class ParkingPanel:
 
         self.__app = app
         # Set controller
-        self.controller = controller
+        self.__controller = controller
         # Interface configuration
         ctk.set_appearance_mode(appearance)
         ctk.set_default_color_theme(color_theme)
@@ -123,6 +123,8 @@ class ParkingPanel:
         footer = ctk.CTkLabel(self.__app, text="Created by Fransolet Justin", font=("Arial", 11))
         footer.grid(row=4, column=0, columnspan=2, pady=self.__y_pad, sticky="nsew")
 
+        self.display_parking()
+
     def create_entry(self, parent: ctk.CTkFrame, label_text: str,row: int)-> ctk.CTkEntry:
         """
         Create an entry with a label.
@@ -152,14 +154,24 @@ class ParkingPanel:
         if parking_number and model and colour and surname and firstname and is_electric:
             try:
                 is_boolean_choose(is_electric)
-                self.controller.place_bike(int(parking_number), model, colour, surname, firstname, True if is_electric=="True" else False)
-                self.table.insert("", "end", values=(parking_number, model, colour, is_electric, surname, firstname))
+                self.__controller.place_bike(int(parking_number), model, colour, surname, firstname, True if is_electric == "True" else False)
+                self.table.insert("", "end", values=(parking_number, model, colour, is_electric, surname, firstname,"Return"))
                 self.clear_entries()
             except Exception as e:
                 ErrorPopUp(400,150,"Error", str(e))
                 return
         else:
             ErrorPopUp(400,150,"Error", "All required fields must be filled!")
+
+    def display_parking(self)-> None:
+        """
+        Display the parking.
+        """
+        try:
+            for park in self.__controller.get_all_bikes():
+                self.table.insert("", "end", values=(park[0], park[1], park[2], "Yes" if park[3] else "No", park[4], park[5], park[6]))
+        except Exception as e:
+            ErrorPopUp(400,150,"Error", str(e))
 
     def clear_entries(self):
         """

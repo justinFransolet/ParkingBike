@@ -124,4 +124,4 @@ class ParkingPanelController:
 
         :return: A list of all the bikes in the parking.
         """
-        return self.repositories.bike_repository.get_bike_parking()
+        return self.repositories.park_repository.get_all_park()
