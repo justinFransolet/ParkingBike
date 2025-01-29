@@ -7,16 +7,18 @@ class Park(NamedTuple):
     """
     The class park is a record. You can use it for represent a record of park for a database.
     """
+    id: int
     bike: Bike
     customer: Customer
     start_time: datetime
     end_time: Any
     ticket: int
 
-def create_park(bike: Bike, customer: Customer, start_time: datetime, end_time: Any, ticket: int)-> Park:
+def create_park(id_park: int, bike: Bike, customer: Customer, start_time: datetime, end_time: Any, ticket: int)-> Park:
     """
     This function check all these attribute of the park before creating.
 
+    :param id_park: The id of the park. The id can't be negative.
     :param bike: The bike in the park.
     :param customer: The customer in the park.
     :param start_time: The start time of the park.
@@ -28,6 +30,12 @@ def create_park(bike: Bike, customer: Customer, start_time: datetime, end_time: 
     :return: This function return a park objet with your attribute.
     """
 
+    # id Check
+    if isinstance(id_park, int):
+        if id_park < 0:
+            raise AttributeError("Id of a park can't be negative")
+    else:
+        raise AttributeError("Id of a park wasn't a int object")
     # bike Check
     if not isinstance(bike,Bike):
         raise AttributeError("Bike of a park wasn't a Bike object")
@@ -47,4 +55,4 @@ def create_park(bike: Bike, customer: Customer, start_time: datetime, end_time: 
     else:
         raise AttributeError("Ticket of a park wasn't a int object")
 
-    return Park(bike,customer,start_time,end_time,ticket)
+    return Park(id_park,bike,customer,start_time,end_time,ticket)

@@ -21,7 +21,7 @@ class ParkingPanelController:
         """
         self.repositories = repositories
 
-    def add_bike(self,model: str, colour: str, is_electric: bool) -> (int,Bike):
+    def add_bike(self,model: str, colour: str, is_electric: bool) -> Bike:
         """
         Adds a bike to the repository.
 
@@ -37,7 +37,7 @@ class ParkingPanelController:
 
         :return: The bike object.
         """
-        bike = create_bike(model, colour, is_electric)
+        bike = create_bike(0,model, colour, is_electric)
         repository = self.repositories.bike_repository
         try:
             db_bike = repository.get_bike(bike)
@@ -46,9 +46,10 @@ class ParkingPanelController:
             repository.add_bike(bike)
             db_bike =  repository.get_bike(bike)
             logging.info(f"A new bike create with this id({db_bike[0]}).")
-        return db_bike[0],bike
+        bike.id = db_bike[0]
+        return bike
 
-    def add_customer(self,surname: str, firstname: str)-> (int,Customer):
+    def add_customer(self,surname: str, firstname: str)-> Customer:
         """
         Adds a customer to the repository.
 
@@ -63,7 +64,7 @@ class ParkingPanelController:
 
         :return: The customer object.
             """
-        customer = create_customer(surname, firstname)
+        customer = create_customer(0,surname, firstname)
         repository = self.repositories.customer_repository
         try:
             db_customer = repository.get_customer(customer)
@@ -72,7 +73,8 @@ class ParkingPanelController:
             repository.add_customer(customer)
             db_customer = repository.get_customer(customer)
             logging.info(f"A new bike create with this id({db_customer[0]}).")
-        return db_customer[0],customer
+        customer.id = db_customer[0]
+        return customer
 
     def place_bike(self,parking_number: int, model: str, colour: str, surname: str, firstname: str, is_electric: bool) -> Park:
         """
@@ -96,9 +98,10 @@ class ParkingPanelController:
         bike = self.add_bike(model,colour,is_electric)
         customer = self.add_customer(surname,firstname)
         repository = self.repositories.park_repository
-        park = create_park(bike[1], customer[1], datetime.now(), None, parking_number)
-        repository.add_park(park,bike[0],customer[0])
+        park = create_park(0,bike, customer, datetime.now(), None, parking_number)
+        repository.add_park(park,bike.id,customer.id)
         db_park = repository.get_park(park)
+        park.id = db_park[0]
         logging.info(f"A new bike create with this id({db_park[0]}).")
         return park
 
