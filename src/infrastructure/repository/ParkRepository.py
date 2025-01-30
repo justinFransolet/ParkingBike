@@ -30,6 +30,21 @@ class ParkRepository:
         else:
             raise ValueError("No park found")
 
+    def get_already_parked(self)-> list:
+        """
+        This method is used to get all the parks not already return to customer.
+
+        :raises ValueError: If no bike found in the database.
+
+        :return: It returns the list of park.
+        """
+        request = """SELECT p.parking_number, b.model, b.colour, b.is_electric, c.firstname, c.lastname, p.id FROM park p LEFT JOIN bike b ON p.bike_id = b.id LEFT JOIN customer c ON p.customer_id = c.id WHERE p.retake_time IS NULL"""
+        result = self.__db.search_request(request,())
+        if result is not None:
+            return result
+        else:
+            raise ValueError("No park found")
+
     def get_park_by_id(self, park_id: int)-> tuple:
         """
         This method is used to get a park by id from the database.
@@ -94,5 +109,5 @@ class ParkRepository:
         :param park: This is the park object.
         :param retake_date: This is the retake date.
         """
-        request = """UPDATE park SET retake_time = ? WHERE parking_number = ? AND retake_time IS NULL AND deposit_time = ?"""
-        self.__db.changes_request(request, (retake_date, park.ticket, park.start_time))
+        request = """UPDATE park SET retake_time = ? WHERE parking_number = ? AND retake_time IS NULL AND id = ?"""
+        self.__db.changes_request(request, (retake_date, park.ticket, park.id))
