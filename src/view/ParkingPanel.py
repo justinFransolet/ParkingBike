@@ -1,9 +1,8 @@
-﻿from datetime import datetime
-import customtkinter as ctk
+﻿import customtkinter as ctk
 from .Datatable import DataTable, Method
 from .ErrorDisplayer import ErrorPopUp
 from src.controller import ParkingPanelController
-from ..domains import Park, Customer, Bike
+from ..domains import Park
 
 
 def validate_int(new_value: str)-> bool:
@@ -105,7 +104,7 @@ class ParkingPanel:
         self.__search_bar = ctk.CTkEntry(table_frame, placeholder_text="Search")
         self.__search_bar.grid(row=1, column=0, columnspan=2, padx=10, pady=self.__y_pad)
 
-        # Test
+        # DataTable for represent the parking
         self.__table = DataTable(table_frame, columns=["Ticket parking", "Model", "Colour", "Electric", "Depot date", "Surname",
                                               "Firstname"], methods=[Method("Return", self.return_bike, "red")])
         self.__table.grid(row=2, column=0, columnspan=2, pady=self.__y_pad, sticky="nsew")
