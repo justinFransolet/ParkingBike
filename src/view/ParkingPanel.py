@@ -1,7 +1,9 @@
-﻿import customtkinter as ctk
-from tkinter import ttk
+﻿from datetime import datetime
+import customtkinter as ctk
+from .Datatable import DataTable, Method
 from .ErrorDisplayer import ErrorPopUp
 from src.controller import ParkingPanelController
+from ..domains import Park, Customer, Bike
 
 
 def validate_int(new_value: str)-> bool:
@@ -72,8 +74,8 @@ class ParkingPanel:
         owner_frame.grid(row=0, column=0, padx=self.__x_pad, pady=self.__y_pad, sticky="nsew")
         # Add the different entries
         ctk.CTkLabel(owner_frame, text="Enter the details of the person", font=("Arial", 16)).grid(row=0, column=0, columnspan=2, pady=self.__y_pad)
-        self.surname_entry = self.create_entry(owner_frame, "Surname:", 1)
-        self.firstname_entry = self.create_entry(owner_frame, "Firstname:", 2)
+        self.__surname_entry = self.create_entry(owner_frame, "Surname:", 1)
+        self.__firstname_entry = self.create_entry(owner_frame, "Firstname:", 2)
 
         # Form for bike information
 
@@ -81,18 +83,18 @@ class ParkingPanel:
         bike_frame.grid(row=0, column=1, padx=self.__x_pad, pady=self.__y_pad, sticky="nsew")
         # Add the different entries
         ctk.CTkLabel(bike_frame, text="Enter the details of the bike", font=("Arial", 16)).grid(row=0, column=0, columnspan=2, pady=self.__y_pad)
-        self.model_entry = self.create_entry(bike_frame, "Model:",1)
-        self.colour_entry = self.create_entry(bike_frame, "Colour:",2)
+        self.__model_entry = self.create_entry(bike_frame, "Model:", 1)
+        self.__colour_entry = self.create_entry(bike_frame, "Colour:", 2)
         ctk.CTkLabel(bike_frame, text="Electric bike:").grid(row=3, column=0, sticky="w", padx=self.__x_pad, pady=self.__y_pad)
-        self.is_electric_var = ctk.StringVar(value="True")
-        is_electric = ctk.CTkSwitch(bike_frame, text="", variable=self.is_electric_var, onvalue="True", offvalue="False")
+        self.__is_electric_var = ctk.StringVar(value="True")
+        is_electric = ctk.CTkSwitch(bike_frame, text="", variable=self.__is_electric_var, onvalue="True", offvalue="False")
         is_electric.grid(row=3, column=1, sticky="ew", padx=self.__x_pad, pady=self.__y_pad)
-        self.parking_number_entry = self.create_entry(bike_frame, "Parking number:",4)
-        self.parking_number_entry.configure(validate="key", validatecommand=(self.parking_number_entry.register(validate_int), "%P"))
+        self.__parking_number_entry = self.create_entry(bike_frame, "Parking number:", 4)
+        self.__parking_number_entry.configure(validate="key", validatecommand=(self.__parking_number_entry.register(validate_int), "%P"))
 
         # Add the park button
-        self.park_button = ctk.CTkButton(self.__app, text="Park", command=self.park_bike)
-        self.park_button.grid(row=2, column=0, columnspan=2, pady=self.__y_pad)
+        self.__park_button = ctk.CTkButton(self.__app, text="Park", command=self.park_bike)
+        self.__park_button.grid(row=2, column=0, columnspan=2, pady=self.__y_pad)
 
         # Parking view
         table_frame = ctk.CTkFrame(self.__app)
@@ -100,18 +102,13 @@ class ParkingPanel:
 
         ctk.CTkLabel(table_frame, text="Parking", font=("Arial", 16)).grid(row=0, column=0, columnspan=2, pady=self.__y_pad)
         # Add the search bar
-        self.search_bar = ctk.CTkEntry(table_frame, placeholder_text="Search")
-        self.search_bar.grid(row=1, column=0, columnspan=2, padx=10, pady=self.__y_pad)
+        self.__search_bar = ctk.CTkEntry(table_frame, placeholder_text="Search")
+        self.__search_bar.grid(row=1, column=0, columnspan=2, padx=10, pady=self.__y_pad)
 
-        self.table = ttk.Treeview(table_frame, columns=("parking", "model", "colour", "electric", "surname", "firstname", "button"), show="headings")
-        self.table.grid(row=2, column=0, columnspan=2, pady=self.__y_pad, sticky="nsew")
-        self.table.heading("parking", text="Parking number")
-        self.table.heading("model", text="Model")
-        self.table.heading("colour", text="Colour")
-        self.table.heading("electric", text="Electric")
-        self.table.heading("surname", text="Surname")
-        self.table.heading("firstname", text="Firstname")
-        self.table.heading("button", text="Return")
+        # Test
+        self.__table = DataTable(table_frame, columns=["Ticket parking", "Model", "Colour", "Electric", "Depot date", "Surname",
+                                              "Firstname"], methods=[Method("Return", self.return_bike, "red")])
+        self.__table.grid(row=2, column=0, columnspan=2, pady=self.__y_pad, sticky="nsew")
 
         # Ensure the table_frame and table expand to fill the available space
         self.__app.grid_rowconfigure(3, weight=1)
@@ -124,6 +121,19 @@ class ParkingPanel:
         footer.grid(row=4, column=0, columnspan=2, pady=self.__y_pad, sticky="nsew")
 
         self.display_parking()
+
+    def return_bike(self, park: Park)-> None:
+        """
+        Return a bike to a customer.
+
+        :param park: The park to return to the customer.
+        """
+        try:
+            self.__controller.return_bike(park)
+            self.__table.clear_rows()
+            self.display_parking()
+        except Exception as e:
+            ErrorPopUp(400,150,"Error", str(e))
 
     def create_entry(self, parent: ctk.CTkFrame, label_text: str,row: int)-> ctk.CTkEntry:
         """
@@ -144,18 +154,19 @@ class ParkingPanel:
         """
         Park a bike in the parking.
         """
-        parking_number = self.parking_number_entry.get()
-        model = self.model_entry.get()
-        colour = self.colour_entry.get()
-        surname = self.surname_entry.get()
-        firstname = self.firstname_entry.get()
-        is_electric = self.is_electric_var.get()
+        parking_number = self.__parking_number_entry.get()
+        model = self.__model_entry.get()
+        colour = self.__colour_entry.get()
+        surname = self.__surname_entry.get()
+        firstname = self.__firstname_entry.get()
+        is_electric = self.__is_electric_var.get()
 
         if parking_number and model and colour and surname and firstname and is_electric:
             try:
                 is_boolean_choose(is_electric)
                 self.__controller.place_bike(int(parking_number), model, colour, surname, firstname, True if is_electric == "True" else False)
-                self.table.insert("", "end", values=(parking_number, model, colour, is_electric, surname, firstname,"Return"))
+                self.__table.clear_rows()
+                self.display_parking()
                 self.clear_entries()
             except Exception as e:
                 ErrorPopUp(400,150,"Error", str(e))
@@ -169,7 +180,7 @@ class ParkingPanel:
         """
         try:
             for park in self.__controller.get_all_bikes():
-                self.table.insert("", "end", values=(park[0], park[1], park[2], "Yes" if park[3] else "No", park[4], park[5], park[6]))
+                self.__table.add_row((park.ticket, park.bike.model, park.bike.colour, "Yes" if park.bike.is_electric else "No", park.start_time.strftime("%Y-%m-%d %H:%M"), park.customer.lastname, park.customer.firstname), park)
         except Exception as e:
             ErrorPopUp(400,150,"Error", str(e))
 
@@ -177,6 +188,6 @@ class ParkingPanel:
         """
         Clear all the entries.
         """
-        for entry in [self.parking_number_entry, self.model_entry, self.colour_entry, self.surname_entry, self.firstname_entry]:
+        for entry in [self.__parking_number_entry, self.__model_entry, self.__colour_entry, self.__surname_entry, self.__firstname_entry]:
             entry.delete(0, "end")
-        self.is_electric_var.set("True")
+        self.__is_electric_var.set("True")
