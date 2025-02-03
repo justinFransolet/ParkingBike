@@ -131,6 +131,6 @@ class ParkingPanelController:
         park_list = []
         for raw in raw_list:
             customer = create_customer(*raw[7:])
-            bike = create_bike(*raw[3:7])
-            park_list.append(create_park(raw[0],bike,customer,raw[2],None,raw[1]))
+            bike = create_bike(*raw[3:6],True if raw[6] else False)
+            park_list.append(create_park(raw[0],bike,customer,datetime.strptime(raw[2], "%Y-%m-%d %H:%M:%S.%f"),None,raw[1]))
         return park_list
