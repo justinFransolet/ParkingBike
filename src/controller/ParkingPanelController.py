@@ -125,6 +125,12 @@ class ParkingPanelController:
         """
         This function is usable to get all the bikes in the parking.
 
-        :return: A list of all the bikes in the parking.
+        :return: A list of objects bike of all in the parking.
         """
-        return self.repositories.park_repository.get_already_parked()
+        raw_list = self.repositories.park_repository.get_already_parked()
+        park_list = []
+        for raw in raw_list:
+            customer = create_customer(*raw[7:])
+            bike = create_bike(*raw[3:7])
+            park_list.append(create_park(raw[0],bike,customer,raw[2],None,raw[1]))
+        return park_list
